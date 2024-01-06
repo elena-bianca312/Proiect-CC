@@ -1,0 +1,103 @@
+# Create a PersistentVolume (PV) and a PersistentVolumeClaim (PVC)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+# Create a Deployment and a Service for MySQL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "1234"
+        - name: MYSQL_DATABASE
+          value: "pweb"
+        - name: MYSQL_TCP_PORT
+          value: "3307"
+        ports:
+        - containerPort: 3307
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: NodePort
+  ports:
+  - port: 3307
+    targetPort: 3307
+    name: mysql
+  selector:
+    app: mysql
+---
+# Create a ConfigMap with the MySQL initialization script
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-script
+data:
+  init.sql: |
+    CREATE TABLE `appointment` ( `id`	INT PRIMARY KEY AUTO_INCREMENT);
+---
+# Create a Job to initialize the MySQL database
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-init
+spec:
+  template:
+    spec:
+      containers:
+      - name: mysql-init
+        image: mysql:latest
+        command: ["mysql", "-u", "root", "-p1234", "-h", "mysql", "-e"]
+        args:
+        - "source /init.sql"
+        envFrom:
+        - configMapRef:
+            name: mysql-init-script
+      restartPolicy: Never
+  backoffLimit: 4

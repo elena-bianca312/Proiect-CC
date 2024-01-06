@@ -1,0 +1,35 @@
+# Create a Deployment and a Service for the backend server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-node
+  template:
+    metadata:
+      labels:
+        app: backend-node
+    spec:
+      containers:
+      - name: backend-node
+        image: backend-node
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3007
+          name: backend-node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-node
+spec:
+  type: NodePort
+  ports:
+  - port: 3007
+    targetPort: 3007
+    name: backend-node
+  selector:
+    app: backend-node

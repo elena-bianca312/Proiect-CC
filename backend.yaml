@@ -1,0 +1,70 @@
+# Create a Deployment and a Service for the backend server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-node
+  template:
+    metadata:
+      labels:
+        app: back-node
+    spec:
+      containers:
+      - name: back-node
+        image: andrei1505/cc-back-node:latest
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "test1234"
+          - name: MYSQL_DATABASE
+            value: "pweb"
+          - name: MYSQL_TCP_PORT
+            value: "3306"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3007
+          name: back-node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-node
+spec:
+  type: NodePort
+  ports:
+  - port: 3007
+    protocol: TCP
+    targetPort: 3007
+    name: back-node
+  selector:
+    app: back-node
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kong
+spec:
+  containers:
+    - image: kong:latest
+      name: kong
+      env:
+        - name: KONG_DATABASE
+          value: 'off'
+        - name: KONG_DECLARATIVE_CONFIG_STRING
+          value: '{"_format_version":"1.1", "services":[{"name":"back-node","url":"http://back-node:3007/appointment","port":3007,"protocol":"http", "routes":[{"paths":["/appointment"]}]}],"plugins":[{"name":"cors", "config":{"origins":["*"]}}]}'
+        - name: KONG_PROXY_ACCESS_LOG
+          value: /dev/stdout
+        - name: KONG_ADMIN_ACCESS_LOG
+          value: /dev/stdout
+        - name: KONG_PROXY_ERROR_LOG
+          value: /dev/stderr
+        - name: KONG_ADMIN_ERROR_LOG
+          value: /dev/stderr
+        - name: KONG_ADMIN_LISTEN
+          value: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+      ports:
+        - containerPort: 8000
+          name: http

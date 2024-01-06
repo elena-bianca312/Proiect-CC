@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config-map
+data:
+  MYSQL_ROOT_PASSWORD: "1234"
+  MYSQL_DATABASE: "pweb"
+  MYSQL_TCP_PORT: "3307"
+  initdb.sql: |
+    CREATE TABLE `appointment` (
+      `id`	INT PRIMARY KEY AUTO_INCREMENT,
+      `firstName`         VARCHAR(30),
+      `lastName`         VARCHAR(30),
+      `cnp`         VARCHAR(15),
+      `phoneNumber`         VARCHAR(20),
+      `appointmentDate` 	DATE,
+      `appointmentTime` 		DATE,
+      `standardPackage`		INT,
+      `bloodType`		VARCHAR(5)
+      );  
