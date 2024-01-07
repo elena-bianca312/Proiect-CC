@@ -37,7 +37,7 @@ app.get('/setup', async (req, res) => {
             country VARCHAR(255) NOT NULL,
             content VARCHAR(1000) NOT NULL
         )`);
-        res.sendStatus(200).send({message: 'Table created successfully'});
+        res.status(200).send({message: 'Table created successfully'});
     } catch (err) {
         console.error(err.message);
         res.sendStatus(500);
