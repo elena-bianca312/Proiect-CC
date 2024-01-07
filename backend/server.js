@@ -1,4 +1,6 @@
 const express = require('express');
+const { Pool } = require('pg');
+
 const pool = new Pool({
     host: process.env.DB_HOST || 'db', // Default to 'db' if not provided
     port: process.env.DB_PORT || 5432,
@@ -8,7 +10,6 @@ const pool = new Pool({
 });
 module.exports = pool;
 
-const { Pool } = require('pg');
 const port = 3000
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');

@@ -1,4 +1,5 @@
 const express = require('express');
+const { Pool } = require('pg');
 
 // Use environment variables for database credentials
 const pool = new Pool({
@@ -11,7 +12,6 @@ const pool = new Pool({
 
 module.exports = pool;
 
-const { Pool } = require('pg');
 const port = 4000
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
