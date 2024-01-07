@@ -11,6 +11,26 @@ services:
     image: santa-letters-backend
     ports:
       - 13000:3000
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: user123
+      DB_PASSWORD: password123
+      DB_NAME: db123
+  auth:
+    image: santa-letters-auth
+    ports:
+      - 14000:4000
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: user123
+      DB_PASSWORD: password123
+      DB_NAME: db123
+    depends_on:
+      - db
   # pgadmin:
   #   image: dpage/pgadmin4
   #   restart: always

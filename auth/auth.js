@@ -1,4 +1,6 @@
 const express = require('express');
+
+// Use environment variables for database credentials
 const pool = new Pool({
     host: process.env.DB_HOST || 'db', // Default to 'db' if not provided
     port: process.env.DB_PORT || 5432,
@@ -6,10 +8,11 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD || 'password123',
     database: process.env.DB_NAME || 'db123'
 });
+
 module.exports = pool;
 
 const { Pool } = require('pg');
-const port = 3000
+const port = 4000
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const SECRET_KEY = 'mySuperSecretKey123!@#';
@@ -39,17 +42,6 @@ const authenticateJWT = (req, res, next) => {
 // allow the app to accept json
 app.use(express.json());
 
-// routes
-app.get('/', authenticateJWT, async (req, res) => {
-    try {
-        const data = await pool.query(`SELECT * FROM letters`);
-        res.status(200).send(data.rows);
-    } catch (err) {
-        console.error(err.message);
-        res.sendStatus(500);
-    }
-});
-
 app.get('/users', authenticateJWT, async (req, res) => {
     try {
         const data = await pool.query(`SELECT * FROM users`);
@@ -60,26 +52,8 @@ app.get('/users', authenticateJWT, async (req, res) => {
     }
 });
 
-app.post('/', authenticateJWT, async (req, res) => {
-    const { name, country, content } = req.body
-    try {
-        await pool.query(`INSERT INTO letters (name, country, content) VALUES ($1, $2, $3)`, [name, country, content]);
-        res.status(200).send({message: 'Letter sent successfully'});
-    } catch (err) {
-        console.error(err.message);
-        res.sendStatus(500);
-    }
-})
-
 app.get('/setup', async (req, res) => {
     try {
-        await pool.query(`CREATE TABLE IF NOT EXISTS letters (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(255) NOT NULL,
-            country VARCHAR(255) NOT NULL,
-            content VARCHAR(1000) NOT NULL
-        )`);
-
         await pool.query(`CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             username VARCHAR(255) NOT NULL UNIQUE,
@@ -92,8 +66,6 @@ app.get('/setup', async (req, res) => {
         res.sendStatus(500);
     }
 })
-
-
 
 // User registration
 app.post('/register', async (req, res) => {
