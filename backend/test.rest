@@ -3,13 +3,46 @@ GET http://localhost:13000/setup
 
 ###
 GET http://localhost:13000
+Authorization: Bearer <Your JWT Token Here>
 
 ###
 POST http://localhost:13000/
 Content-Type: application/json
+Authorization: Bearer <Your JWT Token Here>
 
 {
   "name": "John Doe",
   "country": "USA",
   "content": "For Christmas, I just want people to know who I am!"
+}
+
+###
+GET http://localhost:13000/users
+Authorization: Bearer <Your JWT Token Here>
+
+###
+POST http://localhost:13000/register
+Content-Type: application/json
+
+{
+  "username": "radu",
+  "password": "radu123"
+}
+
+###
+POST http://localhost:13000/register
+Content-Type: application/json
+
+{
+  "username": "andreea",
+  "password": "andreea321"
+}
+
+###
+POST http://localhost:13000/login
+Content-Type: application/json
+
+{
+  "username": "radu",
+  "password": "radu123"
 }
