@@ -1,12 +1,15 @@
-###
-GET http://localhost:13000/setup
+@backend_link = http://localhost:13000
+@auth_link = http://localhost:14000
 
 ###
-GET http://localhost:13000
+GET {{backend_link}}/setup
+
+###
+GET {{backend_link}}
 Authorization: Bearer <Your JWT Token Here>
 
 ###
-POST http://localhost:13000/
+POST {{backend_link}}/
 Content-Type: application/json
 Authorization: Bearer <Your JWT Token Here>
 
@@ -17,11 +20,11 @@ Authorization: Bearer <Your JWT Token Here>
 }
 
 ###
-GET http://localhost:13000/users
-Authorization: Bearer <Your JWT Token Here>
+GET {{backend_link}}/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlZWEiLCJpYXQiOjE3MDQ2NTQ0MDQsImV4cCI6MTcwNDY1ODAwNH0.4li2GLJ6rV76XjUdARN9QOrJkBPtfOOwOK4bo1JZMRw
 
 ###
-POST http://localhost:13000/register
+POST {{auth_link}}/register
 Content-Type: application/json
 
 {
@@ -30,7 +33,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:13000/register
+POST {{auth_link}}/register
 Content-Type: application/json
 
 {
@@ -39,10 +42,10 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:13000/login
+POST {{auth_link}}/login
 Content-Type: application/json
 
 {
-  "username": "radu",
-  "password": "radu123"
+  "username": "andreea",
+  "password": "andreea321"
 }
