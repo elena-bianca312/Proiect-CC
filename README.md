@@ -3,7 +3,7 @@ Simple App Using Docker and Kubernetes. Via the app, children can send virtual l
 
 # Docker Commands
 
-#### To build the docker image for the node app:
+#### To build the docker image for the node app. Whenever you modify something in the code, the image should be rebuilt:
     docker build -t santa-letters-app .
 
 #### To run the entire app using docker-compose:
