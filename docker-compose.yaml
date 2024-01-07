@@ -31,16 +31,16 @@ services:
       DB_NAME: db123
     depends_on:
       - db
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   restart: always
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: santa@yahoo.com
-  #     PGADMIN_DEFAULT_PASSWORD: pass123
-  #     PGADMIN_LISTEN_PORT: 5050
-  #     PGADMIN_ENABLE_APPLICATION_LOG: 0  # Disable application log
-  #     PGADMIN_ENABLE_SERVER_LOG: 0       # Disable server log
-  #   ports:
-  #     - "5050:5050"
-  #   depends_on:
-  #     - db
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: santa@yahoo.com
+      PGADMIN_DEFAULT_PASSWORD: pass123
+      PGADMIN_LISTEN_PORT: 5050
+      PGADMIN_ENABLE_APPLICATION_LOG: 0  # Disable application log
+      PGADMIN_ENABLE_SERVER_LOG: 0       # Disable server log
+    ports:
+      - "5050:5050"
+    depends_on:
+      - db
