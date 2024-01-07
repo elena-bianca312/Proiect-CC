@@ -7,7 +7,13 @@ services:
       POSTGRES_PASSWORD: password123
       POSTGRES_USER: user123
       POSTGRES_DB: db123
-  app:
-    image: santa-letters-app
+  backend:
+    image: santa-letters-backend
     ports:
       - 13000:3000
+  frontend:
+    image: santa-letters-frontend
+    ports:
+      - 80:3000
+    depends_on:
+      - backend
