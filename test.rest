@@ -10,5 +10,6 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "location": "New York"
+  "country": "USA",
+  "content": "For Christmas, I just want people to know who I am!"
 }

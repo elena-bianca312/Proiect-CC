@@ -11,7 +11,7 @@ app.use(express.json());
 app.get('/', async (req, res) => {
     try {
         const data = await pool.query(`SELECT * FROM letters`);
-        res.sendStatus(200).send(data.rows);
+        res.status(200).send(data.rows);
     } catch (err) {
         console.error(err.message);
         res.sendStatus(500);
@@ -22,7 +22,7 @@ app.post('/', async (req, res) => {
     const { name, country, content } = req.body
     try {
         await pool.query(`INSERT INTO letters (name, country, content) VALUES ($1, $2, $3)`, [name, country, content]);
-        res.sendStatus(200).send({message: 'Letter sent successfully'});
+        res.status(200).send({message: 'Letter sent successfully'});
     } catch (err) {
         console.error(err.message);
         res.sendStatus(500);
