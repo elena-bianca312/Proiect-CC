@@ -103,7 +103,7 @@ app.post('/login', async (req, res) => {
             
             if (isPasswordValid) {
                 // If the password is valid, sign and send the JWT
-                const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
+                const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
                 res.status(200).send({ token });
             } else {
                 // If the password is invalid, send an error response
@@ -117,6 +117,16 @@ app.post('/login', async (req, res) => {
         console.error(err.message);
         res.sendStatus(500);
     }
+});
+
+app.post('/verify-token', (req, res) => {
+    const { token } = req.body;
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) {
+            return res.status(401).json({ valid: false });
+        }
+        res.json({ valid: true, user });
+    });
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
