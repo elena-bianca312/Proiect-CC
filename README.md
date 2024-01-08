@@ -60,3 +60,20 @@ Frontend does not work momentarily.
 - Build frontend for app
 - Integrate with K8S and Terraform
 - Integrate a container management tool like Portainer/Rancher/Yacht for container management
+
+
+## Auth.js 
+-this makes the authentication and authorization steps using JWT
+
+## Servr.js
+-this contains the business logic
+
+## Portainer 
+-user : admin
+_pssw : qwerty123!@#
+
+## Adminer
+- select PostgresMSQL
+- POSTGRES_PASSWORD: password123
+- POSTGRES_USER: user123
+- POSTGRES_DB: db123
