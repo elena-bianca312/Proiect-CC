@@ -7,6 +7,17 @@ services:
       POSTGRES_PASSWORD: password123
       POSTGRES_USER: user123
       POSTGRES_DB: db123
+    networks:
+      - backend-network
+  db-auth:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password123
+      POSTGRES_USER: user123
+      POSTGRES_DB: db123
+    networks:
+      - auth-network
   backend:
     image: santa-letters-backend
     ports:
@@ -19,18 +30,24 @@ services:
       DB_USER: user123
       DB_PASSWORD: password123
       DB_NAME: db123
+    networks:
+      - backend-network
+      - backend-auth-network
   auth:
     image: santa-letters-auth
     ports:
       - 14000:4000
     environment:
-      DB_HOST: db
+      DB_HOST: db-auth
       DB_PORT: 5432
       DB_USER: user123
       DB_PASSWORD: password123
       DB_NAME: db123
+    networks:
+      - auth-network
+      - backend-auth-network
     depends_on:
-      - db
+      - db-auth
   # pgadmin:
   #   image: dpage/pgadmin4
   #   restart: always
@@ -51,6 +68,10 @@ services:
       - "8080:8080"  # Adminer will be accessible at http://localhost:8080
     depends_on:
       - db
+      - db-auth
+    networks:
+      - backend-network
+      - auth-network
   portainer:
     image: portainer/portainer-ce
     ports:
@@ -58,5 +79,13 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - backend-network
+      - auth-network
+      - backend-auth-network
 volumes:
   portainer_data:
+networks:
+  backend-network:
+  auth-network:
+  backend-auth-network:
