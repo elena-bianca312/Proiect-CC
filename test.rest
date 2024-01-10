@@ -1,5 +1,5 @@
-@backend_link = http://localhost:6000
-@auth_link = http://localhost:4000
+@backend_link = http://localhost:16000
+@auth_link = http://localhost:14000
 
 ####################
 # Backend
@@ -18,7 +18,7 @@ Authorization: Bearer <Your JWT Token Here>
 ###
 POST {{backend_link}}/
 Content-Type: application/json
-Authorization: Bearer <Your JWT Token Here>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInVzZXJuYW1lIjoiYW5kcmVlYSIsImlhdCI6MTcwNDkxNzEwNywiZXhwIjoxNzA0OTIwNzA3fQ.g8nH7XD4VzhM0GdG36bI-p-crWtEu82KeHwZlBsB_MM
 
 {
   "name": "John Doe",

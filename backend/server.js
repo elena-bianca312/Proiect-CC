@@ -75,8 +75,7 @@ app.get('/setup', async (req, res) => {
             name VARCHAR(255) NOT NULL,
             country VARCHAR(255) NOT NULL,
             content VARCHAR(1000) NOT NULL,
-            user_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
+            user_id INTEGER NOT NULL
         )`);
 
         res.status(200).send({message: 'Tables created successfully'});

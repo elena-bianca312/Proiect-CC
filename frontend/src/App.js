@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const backendLink = 'http://localhost:6000';
-const authLink = 'http://localhost:4000';
+const backendLink = 'http://localhost:16000';
+const authLink = 'http://localhost:14000';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -38,7 +38,6 @@ function App() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true, // Add this line
       });
       setMessage(JSON.stringify(response.data));
     } catch (error) {
@@ -60,7 +59,6 @@ function App() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          withCredentials: true, // Add this line
         }
       );
       setMessage('Letter added successfully');

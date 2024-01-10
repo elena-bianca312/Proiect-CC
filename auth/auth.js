@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 
 // Use environment variables for database credentials
 const pool = new Pool({
-    host: process.env.DB_HOST || 'db', // Default to 'db' if not provided
+    host: process.env.DB_HOST || 'db-auth', // Default to 'db' if not provided
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USER || 'user123',
     password: process.env.DB_PASSWORD || 'password123',
