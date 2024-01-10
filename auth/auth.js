@@ -19,6 +19,9 @@ const SECRET_KEY = 'mySuperSecretKey123!@#';
 
 const app = express();
 
+const cors = require('cors');
+app.use(cors());
+
 // Middleware to authenticate JWT
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;

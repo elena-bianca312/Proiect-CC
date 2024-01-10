@@ -10,10 +10,13 @@ const pool = new Pool({
 });
 module.exports = pool;
 
-const port = 3000
+const port = 6000
 const axios = require('axios');
 const AUTH_SERVICE_URL = 'http://auth:4000';
 const app = express();
+
+const cors = require('cors');
+app.use(cors());
 
 // Middleware to authenticate JWT by verifying with the auth service
 const authenticateJWT = async (req, res, next) => {

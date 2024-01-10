@@ -7,10 +7,14 @@ services:
       POSTGRES_PASSWORD: password123
       POSTGRES_USER: user123
       POSTGRES_DB: db123
+    networks:
+      - backend_network
+      - frontend_network
+
   backend:
     image: santa-letters-backend
     ports:
-      - 13000:3000
+      - 6000:6000
     depends_on:
       - db
     environment:
@@ -19,10 +23,13 @@ services:
       DB_USER: user123
       DB_PASSWORD: password123
       DB_NAME: db123
+    networks:
+      - backend_network
+
   auth:
     image: santa-letters-auth
     ports:
-      - 14000:4000
+      - 4000:4000
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -31,26 +38,19 @@ services:
       DB_NAME: db123
     depends_on:
       - db
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   restart: always
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: santa@yahoo.com
-  #     PGADMIN_DEFAULT_PASSWORD: pass123
-  #     PGADMIN_LISTEN_PORT: 5050
-  #     PGADMIN_ENABLE_APPLICATION_LOG: 0  # Disable application log
-  #     PGADMIN_ENABLE_SERVER_LOG: 0       # Disable server log
-  #   ports:
-  #     - "5050:5050"
-  #   depends_on:
-  #     - db
+    networks:
+      - backend_network
+
   adminer:
     image: adminer
     restart: always
     ports:
-      - "8080:8080"  # Adminer will be accessible at http://localhost:8080
+      - "8080:8080"
     depends_on:
       - db
+    networks:
+      - backend_network
+
   portainer:
     image: portainer/portainer-ce
     ports:
@@ -58,5 +58,22 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - backend_network
+
+  frontend:
+    image: santa-letters-frontend
+    ports:
+      - "15000:3000"
+    depends_on:
+      - backend
+      - auth
+    networks:
+      - frontend_network
+
 volumes:
   portainer_data:
+
+networks:
+  backend_network:
+  frontend_network:
