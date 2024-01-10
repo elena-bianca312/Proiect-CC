@@ -1,0 +1,69 @@
+@backend_link = http://localhost:13000
+@auth_link = http://localhost:14000
+
+####################
+# Backend
+####################
+
+# Setup the database for business logic -> main table
+###
+GET {{backend_link}}/setup
+
+# Get all letters
+###
+GET {{backend_link}}
+Authorization: Bearer <Your JWT Token Here>
+
+# Add letter
+###
+POST {{backend_link}}/
+Content-Type: application/json
+Authorization: Bearer <Your JWT Token Here>
+
+{
+  "name": "John Doe",
+  "country": "USA",
+  "content": "For Christmas, I just want people to know who I am!"
+}
+
+# Get all users??
+# I get this error: Cannot GET /users
+###
+GET {{backend_link}}/users
+Authorization: Bearer <Your JWT Token Here>
+
+####################
+# Authentication
+####################
+
+# Setup the database for authentication -> users table
+GET {{auth_link}}/setup
+
+# Register user
+###
+POST {{auth_link}}/register
+Content-Type: application/json
+
+{
+  "username": "radu",
+  "password": "radu123"
+}
+
+###
+POST {{auth_link}}/register
+Content-Type: application/json
+
+{
+  "username": "andreea",
+  "password": "andreea321"
+}
+
+# Login user
+###
+POST {{auth_link}}/login
+Content-Type: application/json
+
+{
+  "username": "andreea",
+  "password": "andreea321"
+}
