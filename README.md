@@ -71,19 +71,19 @@ Kind is a tool for running local Kubernetes clusters using Docker container "nod
 
 ### Useful K8S Commands
 
-#### Apply resources
-kubectl apply -f kind-config.yaml
+#### Apply resources:
+    kubectl apply -f kind-config.yaml
 
-#### Apply Deployments and Services to create the corresponding resources
-kubectl apply -f path/to/your/deployment.yaml
-kubectl apply -f path/to/your/service.yaml
+#### Apply Deployments and Services to create the corresponding resources:
+    kubectl apply -f path/to/your/deployment.yaml
+    kubectl apply -f path/to/your/service.yaml
 
 #### Alternatively, you can run the bash script to run the command for all desired files (Make sure you are in a git bash type terminal):
-./kind_script.sh
+    ./kind_script.sh
 
 #### Verify deployments and services
-kubectl get deployments
-kubectl get services
+    kubectl get deployments
+    kubectl get services
 
 # TODO
 - Beautify frontend for app
