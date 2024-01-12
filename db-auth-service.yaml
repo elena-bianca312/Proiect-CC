@@ -4,7 +4,7 @@ metadata:
   name: db-auth
 spec:
   selector:
-    app: db-auth
+    io.kompose.service: db-auth
   ports:
     - port: 5432
       targetPort: 5432

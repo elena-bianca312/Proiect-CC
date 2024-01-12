@@ -12,7 +12,7 @@ module.exports = pool;
 
 const port = 6000
 const axios = require('axios');
-const AUTH_SERVICE_URL = 'http://auth:4000';
+const AUTH_SERVICE_URL = 'http://auth:14000';
 const app = express();
 
 const cors = require('cors');
