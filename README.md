@@ -71,19 +71,38 @@ Kind is a tool for running local Kubernetes clusters using Docker container "nod
 
 ### Useful K8S Commands
 
-#### Apply resources:
-    kubectl apply -f kind-config.yaml
+#### Create cluster
+    kind create cluster --config kind-config.yaml
+
+#### Create yaml files from docker configuration
+    kompose convert -f docker-compose.yaml
+
+#### Load local images to cluster
+    kind load docker-image santa-letters-frontend:latest
+    kind load docker-image santa-letters-backend:latest
+    kind load docker-image santa-letters-auth:latest
 
 #### Apply Deployments and Services to create the corresponding resources:
-    kubectl apply -f path/to/your/deployment.yaml
-    kubectl apply -f path/to/your/service.yaml
+    kubectl apply -f .
 
-#### Alternatively, you can run the bash script to run the command for all desired files (Make sure you are in a git bash type terminal):
-    ./kind_script.sh
+#### Verify deployments and services and pods
+    kubectl get all
 
-#### Verify deployments and services
-    kubectl get deployments
-    kubectl get services
+#### Make port forwarding for testing
+    kubectl port-forward service/auth 14000:14000
+    kubectl port-forward service/backend 16000:16000
+    kubectl port-forward service/adminer x:8080
+    kubectl port-forward service/frontend x:13000
+    kubectl port-forward service/portainer x:9000
+
+#### Dashboard
+    kubectl proxy
+    kubectl apply -f dashboard-adminuser.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+    kubectl create token admin-user -n kubernetes-dashboard
+
+Access it at http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
+
 
 # TODO
 - Beautify frontend for app
